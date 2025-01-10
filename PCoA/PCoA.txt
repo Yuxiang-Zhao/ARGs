@@ -1,0 +1,62 @@
+setwd("Your_data")
+install.packages("vegan")
+install.packages("ade4")
+install.packages("RColorBrewer")
+install.packages("pairwiseAdonis")
+install.packages('devtools')
+library(devtools)
+library(vegan)
+library(ade4)
+library(ggplot2)
+library(RColorBrewer)
+library(pairwiseAdonis)
+
+
+otu <- read.csv('Gene.csv', row.names = 1)
+otu <-data.frame(t(otu))
+tab.dist<-vegdist(otu,method='bray')
+pcoa<- dudi.pco(tab.dist, scan = FALSE,nf=3)
+pcoa_eig <- (pcoa$eig)[1:3] / sum(pcoa$eig)
+sample_site <- data.frame({pcoa$li})[1:3]
+sample_site$names <- rownames(sample_site)
+names(sample_site)[1:3] <- c('PCoA1', 'PCoA2', 'PCoA3') 
+write.csv(sample_site,"sample_siteI类.csv")
+map<-read.csv('Group.csv',header=T,row.names=1)
+sample_site=merge(sample_site,map,by="row.names",all.x=TRUE)
+
+write.csv(pcoa_eig,"pcoa_eig.csv")
+dune.div <- adonis2(otu ~Group, data = map, permutations = 999, method="bray")
+
+dune.pairwise.adonis <- pairwise.adonis(x=otu, factors=map$Group, sim.function = "vegdist",
+                                        sim.method = "bray",
+                                        p.adjust.m = "BH",
+                                        reduce = NULL,
+                                        perm = 999)
+dune.div
+write.csv(dune.div,"p_value.csv")
+dune.pairwise.adonis
+
+write.csv(dune.pairwise.adonis,"p_value2.csv")
+
+library(openxlsx)
+library(scatterplot3d)
+library(ggplot2)
+library(plot3D)
+library(RColorBrewer)
+
+
+pdf("plot1.pdf", width = 10, height = 10)
+
+sample_site <- read.csv('Gene_II.csv', row.names = 1)
+with(sample_site, scatter3D(x = PCoA1, y = PCoA2, z = PCoA3,
+                          pch = 21, cex = 0.3,
+                          col = alpha("white", alpha = 0),
+                          xlab = "PCoA1",
+                          ylab = "PCoA2",
+                          zlab = "PCoA3", 
+                          bg = sample_site$color,
+                          ticktype = "detailed",
+                          bty = "f", box = T,
+                          theta =-20, phi = 0, d=5,
+                          colkey = FALSE))
+dev.off()
