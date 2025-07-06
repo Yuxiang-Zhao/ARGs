@@ -12,3 +12,6 @@ Update
    pip install pandas==2.2;
    pip install ete3==3.3;
    pip install numpy==1.26.4.
+
+Run
+python connectivity.py --habitat_file Habitat_pig.csv --gene_tree_file Gene_pig.tree --sample_tree_file Sample_pig.tree --iterations 10 --output_file Result_pig.xlsx --max_sample_size 30
