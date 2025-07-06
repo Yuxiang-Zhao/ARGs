@@ -14,4 +14,6 @@ Update
    pip install numpy==1.26.4.
 
 Run
-python connectivity.py --habitat_file Habitat_pig.csv --gene_tree_file Gene_pig.tree --sample_tree_file Sample_pig.tree --iterations 10 --output_file Result_pig.xlsx --max_sample_size 30
+python connectivity.py --habitat_file Habitat.csv --gene_tree_file Gene.tree --sample_tree_file Sample.tree --iterations 999 --output_file Result.xlsx --max_sample_size 30
+
+noted: If --max_sample_size 0, minimum habitat sample size will be calculated.
