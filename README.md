@@ -30,4 +30,4 @@
 (4) Run:
 
     python your_script.py
-    python connectivity.py --habitat_file Habitat.csv --gene_tree_file Gene.tree --sample_tree_file Sample.tree --iterations 10 --output_file Result_pig.xlsx --max_sample_size 30
+    python connectivity.py --habitat_file Habitat.csv --gene_tree_file Gene.tree --sample_tree_file Sample.tree --iterations 10 --output_file Result.xlsx --max_sample_size 30
